@@ -10,8 +10,8 @@ class AuditTypeController extends Controller
     // muestra la lista de tipos de auditoria
     public function index()
     {
-        $tipos = AuditType::paginate(10);
-        return view('audit_types.index', compact('tipos'));
+        $auditTypes = AuditType::paginate(10);
+        return view('audit_types.index', compact('auditTypes'));
     }
 
     // formulario para crear un nuevo tipo
@@ -23,7 +23,7 @@ class AuditTypeController extends Controller
     // guarda el nuevo tipo en la base de datos
     public function store(Request $request)
     {
-        $validado = $request->validate([
+        $validated = $request->validate([
             'nombre_norma' => 'required|string|min:3|max:255',
             'descripcion'  => 'required|string|min:10|max:1000',
         ], [
@@ -35,31 +35,29 @@ class AuditTypeController extends Controller
             'descripcion.max'       => 'La descripcion no debe superar los :max caracteres',
         ]);
 
-        AuditType::create($validado);
+        AuditType::create($validated);
 
         return redirect()
             ->route('audit-types.index')
-            ->with('success', 'Tipo de auditoria "' . $validado['nombre_norma'] . '" creado con exito');
+            ->with('success', 'Tipo de auditoria "' . $validated['nombre_norma'] . '" creado con exito');
     }
 
     // muestra los detalles de un tipo
     public function show(AuditType $auditType)
     {
-        $tipo = $auditType;
-        return view('audit_types.show', compact('tipo'));
+        return view('audit_types.show', compact('auditType'));
     }
 
     // formulario para editar
     public function edit(AuditType $auditType)
     {
-        $tipo = $auditType;
-        return view('audit_types.edit', compact('tipo'));
+        return view('audit_types.edit', compact('auditType'));
     }
 
     // actualiza los datos en la base de datos
     public function update(Request $request, AuditType $auditType)
     {
-        $validado = $request->validate([
+        $validated = $request->validate([
             'nombre_norma' => 'required|string|min:3|max:255',
             'descripcion'  => 'required|string|min:10|max:1000',
         ], [
@@ -71,21 +69,21 @@ class AuditTypeController extends Controller
             'descripcion.max'       => 'La descripcion no debe superar los :max caracteres',
         ]);
 
-        $auditType->update($validado);
+        $auditType->update($validated);
 
         return redirect()
             ->route('audit-types.index')
-            ->with('success', 'Tipo de auditoria "' . $validado['nombre_norma'] . '" actualizado con exito');
+            ->with('success', 'Tipo de auditoria "' . $validated['nombre_norma'] . '" actualizado con exito');
     }
 
     // elimina el registro
     public function destroy(AuditType $auditType)
     {
-        $nombre = $auditType->nombre_norma;
+        $name = $auditType->nombre_norma;
         $auditType->delete();
 
         return redirect()
             ->route('audit-types.index')
-            ->with('warning', 'El tipo de auditoria "' . $nombre . '" fue eliminado');
+            ->with('warning', 'El tipo de auditoria "' . $name . '" fue eliminado');
     }
 }

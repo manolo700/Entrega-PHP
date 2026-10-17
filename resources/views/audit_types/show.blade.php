@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Norma #' . $tipo->id . ' — ' . $tipo->nombre_norma)
+@section('title', 'Norma #' . $auditType->id . ' — ' . $auditType->nombre_norma)
 
 @section('content')
 <div class="row justify-content-center">
@@ -15,7 +15,7 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    Norma #{{ $tipo->id }}
+                    Norma #{{ $auditType->id }}
                 </li>
             </ol>
         </nav>
@@ -31,7 +31,7 @@
                     </div>
                     <div>
                         <h5 class="card-title fw-bold mb-0 text-dark">
-                            Detalle de la Norma <span class="text-muted fw-normal">#{{ $tipo->id }}</span>
+                            Detalle de la Norma <span class="text-muted fw-normal">#{{ $auditType->id }}</span>
                         </h5>
                         <small class="text-muted">Información del estándar de auditoría.</small>
                     </div>
@@ -45,7 +45,7 @@
                     <label class="text-muted small text-uppercase fw-bold tracking-wide d-block mb-1">
                         Nombre de la Norma
                     </label>
-                    <h3 class="fw-bold text-dark mb-0 lh-sm">{{ $tipo->nombre_norma }}</h3>
+                    <h3 class="fw-bold text-dark mb-0 lh-sm">{{ $auditType->nombre_norma }}</h3>
                 </div>
 
                 {{-- descripcion --}}
@@ -54,7 +54,7 @@
                         Descripción / ¿Qué evalúa?
                     </label>
                     <div class="p-3 bg-light rounded-3 text-secondary lh-base border">
-                        {{ $tipo->descripcion }}
+                        {{ $auditType->descripcion }}
                     </div>
                 </div>
 
@@ -68,7 +68,7 @@
                             <div>
                                 <span class="d-block text-uppercase fw-bold" style="font-size: 0.65rem;">Fecha de Creación</span>
                                 <span class="text-dark fw-semibold">
-                                    {{ $tipo->created_at ? $tipo->created_at->format('d/m/Y — h:i A') : 'No registrada' }}
+                                    {{ $auditType->created_at ? $auditType->created_at->format('d/m/Y — h:i A') : 'No registrada' }}
                                 </span>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                             <div>
                                 <span class="d-block text-uppercase fw-bold" style="font-size: 0.65rem;">Última Modificación</span>
                                 <span class="text-dark fw-semibold">
-                                    {{ $tipo->updated_at ? $tipo->updated_at->format('d/m/Y — h:i A') : 'Sin cambios' }}
+                                    {{ $auditType->updated_at ? $auditType->updated_at->format('d/m/Y — h:i A') : 'Sin cambios' }}
                                 </span>
                             </div>
                         </div>
@@ -94,15 +94,15 @@
                 </a>
 
                 <div class="d-flex gap-2">
-                    <a href="{{ route('audit-types.edit', $tipo) }}" class="btn btn-outline-primary btn-sm px-3 rounded-3">
+                    <a href="{{ route('audit-types.edit', $auditType) }}" class="btn btn-outline-primary btn-sm px-3 rounded-3">
                         <i class="bi bi-pencil-square me-1"></i> Editar Norma
                     </a>
                     <button type="button"
                             class="btn btn-outline-danger btn-sm px-3 rounded-3"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteModal"
-                            data-action="{{ route('audit-types.destroy', $tipo) }}"
-                            data-title="{{ $tipo->nombre_norma }}">
+                            data-action="{{ route('audit-types.destroy', $auditType) }}"
+                            data-title="{{ $auditType->nombre_norma }}">
                         <i class="bi bi-trash3 me-1"></i> Eliminar
                     </button>
                 </div>

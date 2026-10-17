@@ -50,7 +50,7 @@
                 </div>
                 <div>
                     <div class="text-muted small text-uppercase fw-semibold">Pendientes</div>
-                    <div class="fs-3 fw-bold text-dark lh-1">{{ $pendientes }}</div>
+                    <div class="fs-3 fw-bold text-dark lh-1">{{ $pending }}</div>
                 </div>
             </div>
         </div>
@@ -66,7 +66,7 @@
                 </div>
                 <div>
                     <div class="text-muted small text-uppercase fw-semibold">En proceso</div>
-                    <div class="fs-3 fw-bold text-dark lh-1">{{ $enProceso }}</div>
+                    <div class="fs-3 fw-bold text-dark lh-1">{{ $inProgress }}</div>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
                 </div>
                 <div>
                     <div class="text-muted small text-uppercase fw-semibold">Completadas</div>
-                    <div class="fs-3 fw-bold text-dark lh-1">{{ $completadas }}</div>
+                    <div class="fs-3 fw-bold text-dark lh-1">{{ $completed }}</div>
                 </div>
             </div>
         </div>
@@ -100,16 +100,16 @@
             <div class="card-body d-flex flex-column align-items-center justify-content-center py-4">
                 <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
                      style="width:150px; height:150px;
-                            background: conic-gradient(#22c55e {{ $porcentajeCompletado }}%, #e2e8f0 0);">
+                            background: conic-gradient(#22c55e {{ $completedPercentage }}%, #e2e8f0 0);">
                     <div class="bg-white rounded-circle d-flex flex-column align-items-center justify-content-center"
-                         style="width:112px; height:112px;">
-                        <span class="fs-3 fw-bold text-dark lh-1">{{ round($porcentajeCompletado) }}%</span>
+                          style="width:112px; height:112px;">
+                        <span class="fs-3 fw-bold text-dark lh-1">{{ round($completedPercentage) }}%</span>
                         <span class="text-muted" style="font-size:0.7rem;">completado</span>
                     </div>
                 </div>
                 <p class="text-muted small text-center mb-0">
-                    <strong>{{ $ultimaSemana }}</strong>
-                    {{ $ultimaSemana === 1 ? 'auditoría registrada' : 'auditorías registradas' }}
+                    <strong>{{ $lastWeek }}</strong>
+                    {{ $lastWeek === 1 ? 'auditoría registrada' : 'auditorías registradas' }}
                     en los últimos 7 días.
                 </p>
             </div>
@@ -128,13 +128,13 @@
                     {{-- Barra apilada --}}
                     <div class="progress mb-4" style="height: 14px; border-radius: 999px;">
                         <div class="progress-bar" role="progressbar"
-                             style="width: {{ $porcentajeCompletado }}%; background:#22c55e;"
+                             style="width: {{ $completedPercentage }}%; background:#22c55e;"
                              title="Completadas"></div>
                         <div class="progress-bar" role="progressbar"
-                             style="width: {{ $porcentajeEnProceso }}%; background:#3b82f6;"
+                             style="width: {{ $inProgressPercentage }}%; background:#3b82f6;"
                              title="En proceso"></div>
                         <div class="progress-bar" role="progressbar"
-                             style="width: {{ $porcentajePendiente }}%; background:#f59e0b;"
+                             style="width: {{ $pendingPercentage }}%; background:#f59e0b;"
                              title="Pendientes"></div>
                     </div>
 
@@ -144,24 +144,24 @@
                             <span class="badge badge-status badge-status-completado">
                                 <i class="bi bi-check-circle-fill me-1"></i>Completado
                             </span>
-                            <div class="mt-2 fw-bold text-dark">{{ $completadas }}
-                                <span class="text-muted fw-normal small">({{ $porcentajeCompletado }}%)</span>
+                            <div class="mt-2 fw-bold text-dark">{{ $completed }}
+                                <span class="text-muted fw-normal small">({{ $completedPercentage }}%)</span>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <span class="badge badge-status badge-status-en_proceso">
                                 <i class="bi bi-arrow-repeat me-1"></i>En Proceso
                             </span>
-                            <div class="mt-2 fw-bold text-dark">{{ $enProceso }}
-                                <span class="text-muted fw-normal small">({{ $porcentajeEnProceso }}%)</span>
+                            <div class="mt-2 fw-bold text-dark">{{ $inProgress }}
+                                <span class="text-muted fw-normal small">({{ $inProgressPercentage }}%)</span>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <span class="badge badge-status badge-status-pendiente">
                                 <i class="bi bi-clock-history me-1"></i>Pendiente
                             </span>
-                            <div class="mt-2 fw-bold text-dark">{{ $pendientes }}
-                                <span class="text-muted fw-normal small">({{ $porcentajePendiente }}%)</span>
+                            <div class="mt-2 fw-bold text-dark">{{ $pending }}
+                                <span class="text-muted fw-normal small">({{ $pendingPercentage }}%)</span>
                             </div>
                         </div>
                     </div>
@@ -198,7 +198,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($recientes as $audit)
+                    @forelse ($recentAudits as $audit)
                         <tr>
                             <td class="ps-4 fw-semibold text-dark">
                                 {{ Str::limit($audit->titulo, 60, '…') }}
