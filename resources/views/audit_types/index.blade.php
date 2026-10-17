@@ -30,7 +30,7 @@
         </span>
         <span class="badge bg-light text-dark border fw-normal px-3 py-2 rounded-pill">
             <i class="bi bi-database me-1 text-muted"></i>
-            Total: <strong>{{ $tipos->total() }}</strong> registros
+            Total: <strong>{{ $auditTypes->total() }}</strong> registros
         </span>
     </div>
 
@@ -47,24 +47,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($tipos as $tipo)
+                    @forelse ($auditTypes as $auditType)
                         <tr>
                             {{-- id --}}
                             <td class="ps-4">
-                                <span class="badge bg-light text-secondary border fw-semibold">#{{ $tipo->id }}</span>
+                                <span class="badge bg-light text-secondary border fw-semibold">#{{ $auditType->id }}</span>
                             </td>
 
                             {{-- nombre norma --}}
                             <td>
-                                <a href="{{ route('audit-types.show', $tipo) }}" class="fw-semibold text-dark text-decoration-none">
-                                    {{ $tipo->nombre_norma }}
+                                <a href="{{ route('audit-types.show', $auditType) }}" class="fw-semibold text-dark text-decoration-none">
+                                    {{ $auditType->nombre_norma }}
                                 </a>
                             </td>
 
                             {{-- descripcion --}}
                             <td>
-                                <span class="text-muted small text-truncate d-inline-block" style="max-width: 420px;" title="{{ $tipo->descripcion }}">
-                                    {{ $tipo->descripcion }}
+                                <span class="text-muted small text-truncate d-inline-block" style="max-width: 420px;" title="{{ $auditType->descripcion }}">
+                                    {{ $auditType->descripcion }}
                                 </span>
                             </td>
 
@@ -72,17 +72,17 @@
                             <td>
                                 <span class="text-muted small">
                                     <i class="bi bi-calendar3 me-1"></i>
-                                    {{ $tipo->created_at ? $tipo->created_at->format('d/m/Y') : '—' }}
+                                    {{ $auditType->created_at ? $auditType->created_at->format('d/m/Y') : '—' }}
                                 </span>
                             </td>
 
                             {{-- botones de accion --}}
                             <td class="text-end pe-4">
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <a href="{{ route('audit-types.show', $tipo) }}" class="btn btn-outline-secondary" title="Ver detalle">
+                                    <a href="{{ route('audit-types.show', $auditType) }}" class="btn btn-outline-secondary" title="Ver detalle">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="{{ route('audit-types.edit', $tipo) }}" class="btn btn-outline-primary" title="Editar">
+                                    <a href="{{ route('audit-types.edit', $auditType) }}" class="btn btn-outline-primary" title="Editar">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                     <button type="button"
@@ -90,8 +90,8 @@
                                             title="Eliminar"
                                             data-bs-toggle="modal"
                                             data-bs-target="#deleteModal"
-                                            data-action="{{ route('audit-types.destroy', $tipo) }}"
-                                            data-title="{{ $tipo->nombre_norma }}">
+                                            data-action="{{ route('audit-types.destroy', $auditType) }}"
+                                            data-title="{{ $auditType->nombre_norma }}">
                                         <i class="bi bi-trash3"></i>
                                     </button>
                                 </div>
@@ -116,13 +116,13 @@
     </div>
 
     {{-- paginacion --}}
-    @if ($tipos->hasPages())
+    @if ($auditTypes->hasPages())
         <div class="card-footer bg-white py-3 border-top d-flex justify-content-between align-items-center">
             <span class="small text-muted">
-                Mostrando {{ $tipos->firstItem() }} - {{ $tipos->lastItem() }} de {{ $tipos->total() }} registros
+                Mostrando {{ $auditTypes->firstItem() }} - {{ $auditTypes->lastItem() }} de {{ $auditTypes->total() }} registros
             </span>
             <div>
-                {{ $tipos->links() }}
+                {{ $auditTypes->links() }}
             </div>
         </div>
     @endif

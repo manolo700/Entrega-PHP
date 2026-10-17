@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Editar Norma — ' . $tipo->nombre_norma)
+@section('title', 'Editar Norma — ' . $auditType->nombre_norma)
 
 @section('content')
 <div class="row justify-content-center">
@@ -15,8 +15,8 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ route('audit-types.show', $tipo) }}" class="text-decoration-none">
-                        Norma #{{ $tipo->id }}
+                    <a href="{{ route('audit-types.show', $auditType) }}" class="text-decoration-none">
+                        Norma #{{ $auditType->id }}
                     </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">Editar</li>
@@ -50,13 +50,13 @@
                     </div>
                     <div>
                         <h5 class="card-title fw-bold mb-0 text-dark">Editar Tipo de Auditoría</h5>
-                        <small class="text-muted">Modificando la norma #{{ $tipo->id }}</small>
+                        <small class="text-muted">Modificando la norma #{{ $auditType->id }}</small>
                     </div>
                 </div>
             </div>
 
             <div class="card-body p-4">
-                <form action="{{ route('audit-types.update', $tipo) }}" method="POST" novalidate>
+                <form action="{{ route('audit-types.update', $auditType) }}" method="POST" novalidate>
                     @csrf
                     @method('PUT')
 
@@ -69,7 +69,7 @@
                                class="form-control @error('nombre_norma') is-invalid @enderror"
                                id="nombre_norma"
                                name="nombre_norma"
-                               value="{{ old('nombre_norma', $tipo->nombre_norma) }}"
+                               value="{{ old('nombre_norma', $auditType->nombre_norma) }}"
                                maxlength="255"
                                required>
                         @error('nombre_norma')
@@ -87,7 +87,7 @@
                                   name="descripcion"
                                   rows="4"
                                   maxlength="1000"
-                                  required>{{ old('descripcion', $tipo->descripcion) }}</textarea>
+                                  required>{{ old('descripcion', $auditType->descripcion) }}</textarea>
                         @error('descripcion')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

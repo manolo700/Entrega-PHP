@@ -10,36 +10,36 @@ class DashboardController extends Controller
     public function index()
     {
         
-        $conteos = Audit::selectRaw('estado, COUNT(*) as total')
+        $counts = Audit::selectRaw('estado, COUNT(*) as total')
             ->groupBy('estado')
             ->pluck('total', 'estado');
 
-        $pendientes  = (int) ($conteos['pendiente']  ?? 0);
-        $enProceso   = (int) ($conteos['en_proceso'] ?? 0);
-        $completadas = (int) ($conteos['completado'] ?? 0);
-        $total       = $pendientes + $enProceso + $completadas;
+        $pending    = (int) ($counts['pendiente']  ?? 0);
+        $inProgress = (int) ($counts['en_proceso'] ?? 0);
+        $completed  = (int) ($counts['completado'] ?? 0);
+        $total      = $pending + $inProgress + $completed;
 
         
-        $pct = fn (int $cantidad): float => $total > 0 ? round($cantidad / $total * 100, 1) : 0;
+        $pct = fn (int $amount): float => $total > 0 ? round($amount / $total * 100, 1) : 0;
 
-        $porcentajePendiente  = $pct($pendientes);
-        $porcentajeEnProceso  = $pct($enProceso);
-        $porcentajeCompletado = $pct($completadas);
+        $pendingPercentage    = $pct($pending);
+        $inProgressPercentage = $pct($inProgress);
+        $completedPercentage  = $pct($completed);
 
-        $ultimaSemana = Audit::where('created_at', '>=', now()->subDays(7))->count();
+        $lastWeek = Audit::where('created_at', '>=', now()->subDays(7))->count();
 
-        $recientes = Audit::latest()->take(5)->get();
+        $recentAudits = Audit::latest()->take(5)->get();
 
         return view('dashboard', compact(
             'total',
-            'pendientes',
-            'enProceso',
-            'completadas',
-            'porcentajePendiente',
-            'porcentajeEnProceso',
-            'porcentajeCompletado',
-            'ultimaSemana',
-            'recientes'
+            'pending',
+            'inProgress',
+            'completed',
+            'pendingPercentage',
+            'inProgressPercentage',
+            'completedPercentage',
+            'lastWeek',
+            'recentAudits'
         ));
     }
 }

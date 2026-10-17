@@ -114,11 +114,11 @@ class AuditController extends Controller
      */
     public function destroy(Audit $audit)
     {
-        $titulo = $audit->titulo;
+        $title = $audit->titulo;
         $audit->delete();
 
         return redirect()
             ->route('audits.index')
-            ->with('warning', '🗑️ La auditoría "' . $titulo . '" fue eliminada permanentemente.');
+            ->with('warning', '🗑️ La auditoría "' . $title . '" fue eliminada permanentemente.');
     }
 }
