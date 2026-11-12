@@ -94,17 +94,21 @@
                 </a>
 
                 <div class="d-flex gap-2">
-                    <a href="{{ route('audit-types.edit', $auditType) }}" class="btn btn-outline-primary btn-sm px-3 rounded-3">
-                        <i class="bi bi-pencil-square me-1"></i> Editar Norma
-                    </a>
-                    <button type="button"
-                            class="btn btn-outline-danger btn-sm px-3 rounded-3"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deleteModal"
-                            data-action="{{ route('audit-types.destroy', $auditType) }}"
-                            data-title="{{ $auditType->nombre_norma }}">
-                        <i class="bi bi-trash3 me-1"></i> Eliminar
-                    </button>
+                    @can('audit_types.edit')
+                        <a href="{{ route('audit-types.edit', $auditType) }}" class="btn btn-outline-primary btn-sm px-3 rounded-3">
+                            <i class="bi bi-pencil-square me-1"></i> Editar Norma
+                        </a>
+                    @endcan
+                    @can('audit_types.delete')
+                        <button type="button"
+                                class="btn btn-outline-danger btn-sm px-3 rounded-3"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal"
+                                data-action="{{ route('audit-types.destroy', $auditType) }}"
+                                data-title="{{ $auditType->nombre_norma }}">
+                            <i class="bi bi-trash3 me-1"></i> Eliminar
+                        </button>
+                    @endcan
                 </div>
             </div>
 

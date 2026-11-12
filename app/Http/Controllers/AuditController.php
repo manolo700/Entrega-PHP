@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Audit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class AuditController extends Controller
@@ -13,6 +14,8 @@ class AuditController extends Controller
      */
     public function index()
     {
+        Gate::authorize('audits.view');
+
         $audits = Audit::latest()->paginate(10);
         return view('audits.index', compact('audits'));
     }
@@ -22,6 +25,8 @@ class AuditController extends Controller
      */
     public function create()
     {
+        Gate::authorize('audits.create');
+
         return view('audits.create');
     }
 
@@ -30,6 +35,8 @@ class AuditController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('audits.create');
+
         $validated = $request->validate(
             [
                 'titulo'      => 'required|string|min:5|max:255',
@@ -64,6 +71,8 @@ class AuditController extends Controller
      */
     public function show(Audit $audit)
     {
+        Gate::authorize('audits.view');
+
         return view('audits.show', compact('audit'));
     }
 
@@ -72,6 +81,8 @@ class AuditController extends Controller
      */
     public function edit(Audit $audit)
     {
+        Gate::authorize('audits.edit');
+
         return view('audits.edit', compact('audit'));
     }
 
@@ -80,6 +91,8 @@ class AuditController extends Controller
      */
     public function update(Request $request, Audit $audit)
     {
+        Gate::authorize('audits.edit');
+
         $validated = $request->validate(
             [
                 'titulo'      => 'required|string|min:5|max:255',
@@ -114,6 +127,8 @@ class AuditController extends Controller
      */
     public function destroy(Audit $audit)
     {
+        Gate::authorize('audits.delete');
+
         $title = $audit->titulo;
         $audit->delete();
 

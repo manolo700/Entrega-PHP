@@ -15,9 +15,11 @@
         </p>
     </div>
     <div class="col-md-4 text-md-end mt-3 mt-md-0">
-        <a href="{{ route('audits.create') }}" class="btn btn-primary px-4 shadow-sm rounded-3">
-            <i class="bi bi-plus-lg me-1"></i> Nueva Auditoría
-        </a>
+        @can('audits.create')
+            <a href="{{ route('audits.create') }}" class="btn btn-primary px-4 shadow-sm rounded-3">
+                <i class="bi bi-plus-lg me-1"></i> Nueva Auditoría
+            </a>
+        @endcan
     </div>
 </div>
 

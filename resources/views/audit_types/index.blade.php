@@ -15,9 +15,11 @@
         </p>
     </div>
     <div class="col-md-4 text-md-end mt-3 mt-md-0">
-        <a href="{{ route('audit-types.create') }}" class="btn btn-primary px-4 shadow-sm rounded-3">
-            <i class="bi bi-plus-lg me-1"></i> Nueva Norma
-        </a>
+        @can('audit_types.create')
+            <a href="{{ route('audit-types.create') }}" class="btn btn-primary px-4 shadow-sm rounded-3">
+                <i class="bi bi-plus-lg me-1"></i> Nueva Norma
+            </a>
+        @endcan
     </div>
 </div>
 
@@ -82,18 +84,22 @@
                                     <a href="{{ route('audit-types.show', $auditType) }}" class="btn btn-outline-secondary" title="Ver detalle">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="{{ route('audit-types.edit', $auditType) }}" class="btn btn-outline-primary" title="Editar">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <button type="button"
-                                            class="btn btn-outline-danger"
-                                            title="Eliminar"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal"
-                                            data-action="{{ route('audit-types.destroy', $auditType) }}"
-                                            data-title="{{ $auditType->nombre_norma }}">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
+                                    @can('audit_types.edit')
+                                        <a href="{{ route('audit-types.edit', $auditType) }}" class="btn btn-outline-primary" title="Editar">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    @endcan
+                                    @can('audit_types.delete')
+                                        <button type="button"
+                                                class="btn btn-outline-danger"
+                                                title="Eliminar"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal"
+                                                data-action="{{ route('audit-types.destroy', $auditType) }}"
+                                                data-title="{{ $auditType->nombre_norma }}">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

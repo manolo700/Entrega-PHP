@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Audit;
+use Illuminate\Support\Facades\Gate;
 
 class DashboardController extends Controller
 {
-    
+    /**
+     * Panel de control principal con estadísticas de auditorías.
+     */
     public function index()
     {
-        
+        Gate::authorize('dashboard.view');
+
         $counts = Audit::selectRaw('estado, COUNT(*) as total')
             ->groupBy('estado')
             ->pluck('total', 'estado');
@@ -19,7 +23,6 @@ class DashboardController extends Controller
         $completed  = (int) ($counts['completado'] ?? 0);
         $total      = $pending + $inProgress + $completed;
 
-        
         $pct = fn (int $amount): float => $total > 0 ? round($amount / $total * 100, 1) : 0;
 
         $pendingPercentage    = $pct($pending);

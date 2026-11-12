@@ -103,19 +103,23 @@
                     </a>
 
                     <div class="d-flex gap-2 flex-wrap">
-                        <a href="{{ route('audits.edit', $audit) }}" class="btn btn-warning text-dark fw-semibold">
-                            <i class="bi bi-pencil-square me-1"></i> Editar
-                        </a>
+                        @can('audits.edit')
+                            <a href="{{ route('audits.edit', $audit) }}" class="btn btn-warning text-dark fw-semibold">
+                                <i class="bi bi-pencil-square me-1"></i> Editar
+                            </a>
+                        @endcan
 
-                        {{-- Botón para abrir el modal de eliminación --}}
-                        <button type="button"
-                                class="btn btn-danger"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteModal"
-                                data-action="{{ route('audits.destroy', $audit) }}"
-                                data-title="{{ $audit->titulo }}">
-                            <i class="bi bi-trash3 me-1"></i> Eliminar
-                        </button>
+                        @can('audits.delete')
+                            {{-- Botón para abrir el modal de eliminación --}}
+                            <button type="button"
+                                    class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal"
+                                    data-action="{{ route('audits.destroy', $audit) }}"
+                                    data-title="{{ $audit->titulo }}">
+                                <i class="bi bi-trash3 me-1"></i> Eliminar
+                            </button>
+                        @endcan
                     </div>
                 </div>
 

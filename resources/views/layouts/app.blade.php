@@ -191,7 +191,7 @@
     <!-- ══════════════ NAVBAR ══════════════ -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm py-3">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('audits.index') }}">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('dashboard') }}">
                 <i class="bi bi-shield-check brand-icon fs-4"></i>
                 <span>Gestión de Auditorías</span>
             </a>
@@ -200,32 +200,101 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center gap-2">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('dashboard') ? 'active fw-semibold' : '' }}"
-                            href="{{ route('dashboard') }}">
+                <ul class="navbar-nav me-auto align-items-center gap-1 ps-lg-3">
+                    @can('dashboard.view')
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('dashboard') ? 'active fw-semibold' : '' }}"
+                                href="{{ route('dashboard') }}">
                                 <i class="bi bi-speedometer2 me-1"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('audits.index') ? 'active fw-semibold' : '' }}"
-                           href="{{ route('audits.index') }}">
-                            <i class="bi bi-list-ul me-1"></i> Auditorías
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('audit-types.*') ? 'active fw-semibold' : '' }}"
-                            href="{{ route('audit-types.index') }}">
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('audits.view')
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('audits.*') ? 'active fw-semibold' : '' }}"
+                               href="{{ route('audits.index') }}">
+                                <i class="bi bi-list-ul me-1"></i> Auditorías
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('audit_types.view')
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('audit-types.*') ? 'active fw-semibold' : '' }}"
+                                href="{{ route('audit-types.index') }}">
                                 <i class="bi bi-bookmark-check me-1"></i> Tipos de Auditoría
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-primary btn-sm px-3 rounded-pill d-flex align-items-center gap-1 shadow-sm"
-                           href="{{ route('audits.create') }}">
-                            <i class="bi bi-plus-circle"></i>
-                            <span>Nueva Auditoría</span>
-                        </a>
-                    </li>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('users.view')
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('users.*') ? 'active fw-semibold' : '' }}"
+                                href="{{ route('users.index') }}">
+                                <i class="bi bi-people-fill me-1"></i> Usuarios (Accounting)
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    @can('audits.create')
+                        <li class="nav-item">
+                            <a class="btn btn-primary btn-sm px-3 rounded-pill d-flex align-items-center gap-1 shadow-sm"
+                               href="{{ route('audits.create') }}">
+                                <i class="bi bi-plus-circle"></i>
+                                <span>Nueva Auditoría</span>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @auth
+                        <!-- Dropdown de Usuario -->
+                        <li class="nav-item dropdown ms-lg-2">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 py-1 px-2 rounded-pill bg-white bg-opacity-10 text-white"
+                               href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold"
+                                     style="width: 32px; height: 32px; font-size: 0.85rem;">
+                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                </div>
+                                <span class="d-none d-md-inline small fw-medium">{{ Auth::user()->name }}</span>
+                                <span class="badge bg-info text-dark small" style="font-size: 0.7rem;">
+                                    {{ Auth::user()->role ? Auth::user()->role->display_name : 'Usuario' }}
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 py-2 mt-2" aria-labelledby="userDropdown" style="min-width: 240px; border-radius: 0.75rem;">
+                                <li class="px-3 py-2 border-bottom">
+                                    <div class="fw-bold text-dark text-truncate">{{ Auth::user()->name }}</div>
+                                    <div class="small text-muted text-truncate">{{ Auth::user()->email }}</div>
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle mt-1">
+                                        <i class="bi bi-shield-lock me-1"></i>{{ Auth::user()->role ? Auth::user()->role->display_name : 'Sin rol' }}
+                                    </span>
+                                </li>
+                                @can('users.view')
+                                    <li>
+                                        <a class="dropdown-item py-2 d-flex align-items-center gap-2" href="{{ route('users.show', Auth::user()) }}">
+                                            <i class="bi bi-person-badge text-secondary"></i> Mi Perfil y Permisos
+                                        </a>
+                                    </li>
+                                @endcan
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST" class="d-inline w-100" id="logoutForm">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item py-2 text-danger d-flex align-items-center gap-2">
+                                            <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="btn btn-outline-light btn-sm px-3 rounded-pill" href="{{ route('login') }}">
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar Sesión
+                            </a>
+                        </li>
+                    @endauth
                 </ul>
             </div>
         </div>

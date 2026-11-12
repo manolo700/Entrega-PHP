@@ -15,9 +15,11 @@
         </p>
     </div>
     <div class="col-md-4 text-md-end mt-3 mt-md-0">
-        <a href="{{ route('audits.create') }}" class="btn btn-primary px-4 shadow-sm rounded-3">
-            <i class="bi bi-plus-lg me-1"></i> Nueva Auditoría
-        </a>
+        @can('audits.create')
+            <a href="{{ route('audits.create') }}" class="btn btn-primary px-4 shadow-sm rounded-3">
+                <i class="bi bi-plus-lg me-1"></i> Nueva Auditoría
+            </a>
+        @endcan
     </div>
 </div>
 
@@ -103,22 +105,26 @@
                                        title="Ver detalle">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    {{-- Editar --}}
-                                    <a href="{{ route('audits.edit', $audit) }}"
-                                       class="btn btn-outline-warning"
-                                       title="Editar">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    {{-- Eliminar (abre modal) --}}
-                                    <button type="button"
-                                            class="btn btn-outline-danger"
-                                            title="Eliminar"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal"
-                                            data-action="{{ route('audits.destroy', $audit) }}"
-                                            data-title="{{ $audit->titulo }}">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
+                                    @can('audits.edit')
+                                        {{-- Editar --}}
+                                        <a href="{{ route('audits.edit', $audit) }}"
+                                           class="btn btn-outline-warning"
+                                           title="Editar">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    @endcan
+                                    @can('audits.delete')
+                                        {{-- Eliminar (abre modal) --}}
+                                        <button type="button"
+                                                class="btn btn-outline-danger"
+                                                title="Eliminar"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal"
+                                                data-action="{{ route('audits.destroy', $audit) }}"
+                                                data-title="{{ $audit->titulo }}">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>
